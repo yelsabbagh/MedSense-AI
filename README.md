@@ -1,5 +1,5 @@
 # MedSense-AI
-AI-powered tool for generating medical MCQs and summaries from lecture PDFs.
+AI-powered tool for generating medical MCQs from lecture PDFs.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
