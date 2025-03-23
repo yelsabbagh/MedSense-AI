@@ -1,0 +1,128 @@
+ ## AI Rules for Medical MCQ Generation
+
+**Objective:** To generate valid, reliable, and clinically relevant Multiple-Choice Questions (MCQs) from a given `#text_chunk` of medical content, suitable for medical education and assessment, adhering to best practices from organizations like NBME, USMLE, PLAB, and WHO.
+
+**Input:**  `#text_chunk` - A segment of medical text (e.g., a paragraph describing a disease, a section of a clinical guideline, a research abstract).
+
+**Output:**  One or more MCQs, each consisting of:
+
+*   **Stem:**  A question or incomplete statement.
+*   **Options:**  A list of potential answers (typically 4-5).
+*   **Correct Answer:**  The single best answer among the options.
+*   **Rationale:**  An explanation of *why* the correct answer is correct *and* why the distractors are incorrect, citing specific evidence from the `#text_chunk`.
+*  **Bloom's Level**: Identify which of Bloom's Taxonomy levels is being tested (Remember, Understand, Apply, Analyze, Evaluate, Create)
+* **Difficulty**: Assign a difficulty level from the options: (Beginner, Intermediate, Advanced)
+
+---
+
+**I.  Question Generation Rules**
+
+1.  **Prioritize Clinical Vignettes:**
+    *   **RULE:**  If the `#text_chunk` describes a disease, condition, or clinical scenario, construct a stem that presents a patient case.  The vignette should include:
+        *   Patient demographics (age, sex, relevant risk factors).
+        *   Presenting complaint (chief concern).
+        *   Relevant signs and symptoms.
+        *   Relevant laboratory/imaging findings (if applicable and described in the `#text_chunk`).
+    *   **RULE:**  If the `#text_chunk` describes a general principle, concept, or mechanism (e.g., drug mechanism of action), a clinical vignette *may* be used, but is not mandatory. A direct question format is acceptable.
+    *   **RULE:**  Vignettes should be concise and focused, avoiding extraneous details not directly relevant to the question being asked.  Aim for 3-5 sentences.
+
+2.  **Stem Structure and Phrasing:**
+    *   **RULE:**  Use a *complete question* format whenever possible.  Avoid incomplete statements unless absolutely necessary for clarity.
+    *   **RULE:**  The stem should clearly and unambiguously present a *single* problem or question.
+    *   **RULE:**  The stem should be answerable *without* looking at the options (cover-the-options test).  A knowledgeable person should be able to formulate a reasonable answer based on the stem alone.
+    *   **RULE:**  *Strongly avoid* negative phrasing ("Which of the following is NOT...", "All of the following EXCEPT...").  Rephrase positively whenever possible.
+        *   **EXCEPTION:**  If the `#text_chunk` *specifically* emphasizes contraindications, risks, or what *not* to do, negative phrasing *may* be used, but the negative word (NOT, EXCEPT) MUST be in ALL CAPS and **bolded**.
+    *   **RULE:** Avoid vague qualifiers (e.g., "usually," "sometimes," "rarely") in the stem unless the `#text_chunk` provides specific quantitative data to support their use.
+
+3.  **Option Generation (Distractors and Correct Answer):**
+    *   **RULE:**  Generate *four* options: one correct answer and three distractors.
+    *   **RULE:**  The correct answer must be *unambiguously* correct and supported by the `#text_chunk`.
+    *   **RULE:**  Distractors must be *plausible* but *incorrect*.  They should reflect common misconceptions, errors, or near-misses related to the topic.
+    *   **RULE:**  All options (correct answer and distractors) should be:
+        *   Homogeneous in content (e.g., all drug names, all diagnoses, all physiological mechanisms).
+        *   Approximately the same length.
+        *   Grammatically consistent with the stem.
+        *   Mutually exclusive (no overlap between options).
+    *   **RULE:**  *Strongly avoid* "All of the above" and "None of the above" as options.
+    *   **RULE:**  Avoid absolute terms ("always," "never") unless the `#text_chunk` explicitly and unequivocally supports them.
+    *   **RULE:**  Present options in a logical order (e.g., alphabetical, numerical, chronological) where applicable.
+
+4.  **Rationale Generation:**
+    *   **RULE:**  Provide a concise rationale (1-3 sentences) for *each* option (correct answer and distractors).
+    *   **RULE:**  The rationale for the correct answer must explicitly state *why* it is correct, citing specific evidence from the `#text_chunk` (e.g., "According to the `#text_chunk`, [quote or paraphrase relevant sentence]").
+    *   **RULE:**  The rationale for each distractor must explicitly state *why* it is incorrect, citing specific evidence from the `#text_chunk` or, if necessary, established medical knowledge that contradicts the distractor.
+    *  **RULE:** Do not introduce new medical information in the rationale.
+
+5.  **Content and Cognitive Level:**
+    *   **RULE:**  Prioritize questions that assess *application*, *analysis*, or *evaluation* (Bloom's Taxonomy Levels 3-5).  Minimize questions that solely test recall (Bloom's Level 1).
+        *   **Application:**  Using information in a new context (e.g., applying a diagnostic criterion to a patient case).
+        *   **Analysis:**  Breaking down information and understanding relationships (e.g., interpreting lab results, differentiating between diagnoses).
+        *   **Evaluation:**  Making judgments and justifying decisions (e.g., choosing the best treatment option).
+    *   **RULE:**  Ensure the question directly relates to the *key concepts* presented in the `#text_chunk`.  Do not test on minor details or tangential information.
+    * **RULE:** Ensure the content of the MCQs align with at least one learning objective from the given curriculum.
+
+6.  **Accuracy and Validation:**
+    *   **RULE:**  After generating the MCQ, *cross-check* the correct answer and rationale against the `#text_chunk` to ensure complete accuracy.
+
+7.  **Difficulty Level:**
+  *   **RULE:** Base the `Difficulty` on the following:
+      *   **Beginner:** Tests recall of basic facts and definitions from the `#text_chunk`.  Bloom's Level 1-2.
+      *   **Intermediate:** Requires understanding and application of concepts from the `#text_chunk`. Bloom's Level 3.
+      *   **Advanced:**  Requires analysis, evaluation, or synthesis of information from the `#text_chunk` and potentially integrating it with prior knowledge. Bloom's Level 4-6.
+
+---
+
+**II. Examples**
+
+**Example 1 (Clinical Vignette, Application)**
+
+**`#text_chunk`:** "Acute appendicitis typically presents with periumbilical pain that migrates to the right lower quadrant (RLQ).  Physical examination often reveals tenderness at McBurney's point, which is located one-third of the distance from the anterior superior iliac spine (ASIS) to the umbilicus.  Rebound tenderness and guarding may also be present.  Laboratory findings often include leukocytosis (elevated white blood cell count)."
+
+**Generated MCQ:**
+
+*   **Stem:** A 25-year-old woman presents to the emergency department with abdominal pain that began 6 hours ago around her umbilicus and has now localized to the right lower quadrant.  On physical examination, she has tenderness at McBurney's point.  Which of the following laboratory findings would be most consistent with her suspected diagnosis?
+*   **Options:**
+    *   A)  Thrombocytopenia
+    *   B)  Elevated liver enzymes
+    *   C)  Leukocytosis
+    *   D)  Decreased hemoglobin
+*   **Correct Answer:** C) Leukocytosis
+*   **Rationale:**
+    *   A) Incorrect: Thrombocytopenia (low platelet count) is not typically associated with acute appendicitis. The `#text_chunk` does not mention platelets.
+    *   B) Incorrect: Elevated liver enzymes are not a typical finding in acute appendicitis. The `#text_chunk` does not mention liver enzymes.
+    *   C) Correct: The `#text_chunk` states that "Laboratory findings often include leukocytosis (elevated white blood cell count)" in acute appendicitis.
+    *   D) Incorrect: Decreased hemoglobin is not a primary finding in acute appendicitis, although it could occur with complications like perforation and bleeding (not mentioned in the `#text_chunk`).
+* **Bloom's Level**: Apply
+* **Difficulty**: Intermediate
+
+**Example 2 (Direct Question, Understanding)**
+
+**`#text_chunk`:** "Beta-blockers work by antagonizing beta-adrenergic receptors, primarily beta-1 receptors in the heart.  This results in decreased heart rate (negative chronotropy), decreased contractility (negative inotropy), and decreased conduction velocity (negative dromotropy)."
+
+**Generated MCQ:**
+
+*   **Stem:** What is the primary mechanism of action of beta-blocker medications on the heart?
+*   **Options:**
+    *   A)  Increased calcium influx into cardiac myocytes
+    *   B)  Antagonism of beta-adrenergic receptors
+    *   C)  Activation of alpha-adrenergic receptors
+    *   D)  Inhibition of sodium-potassium pumps
+*   **Correct Answer:** B) Antagonism of beta-adrenergic receptors
+*   **Rationale:**
+    *   A) Incorrect: Increased calcium influx would *increase* contractility, the opposite of beta-blockers' effect. The `#text_chunk` does not support this.
+    *   B) Correct: The `#text_chunk` states that "Beta-blockers work by antagonizing beta-adrenergic receptors."
+    *   C) Incorrect: Beta-blockers primarily target beta-receptors, not alpha-receptors. The `#text_chunk` does not support this.
+    *   D) Incorrect: This is the mechanism of action of digoxin, not beta-blockers. The `#text_chunk` does not support this.
+* **Bloom's Level**: Understand
+* **Difficulty**: Beginner
+
+---
+
+**III.  Anti-Patterns (Things to Explicitly Avoid)**
+
+1.  **RULE:** Do *not* create questions that require outside knowledge beyond the provided `#text_chunk`.
+2.  **RULE:** Do *not* use ambiguous or imprecise language.
+3.  **RULE:** Do *not* create questions that are overly complex or require multiple steps of reasoning *unless* the `#text_chunk` explicitly supports such complexity.
+4.  **RULE:** Do *not* create "trick" questions or questions that rely on obscure details.
+5. **RULE**: Do *not* create questions that test on trivial, unimportant, or irrelevant details from the `#text_chunk`.
+

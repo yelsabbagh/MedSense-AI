@@ -1,0 +1,8 @@
+google-generativeai
+pdf2image
+pytesseract
+pandas
+reportlab
+markdown
+python-docx
+docxtpl
