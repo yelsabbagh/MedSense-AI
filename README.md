@@ -1,4 +1,4 @@
-# MedSense AI: AI-Powered Medical Learning Tools
+# MedSense AI: AI-Powered Medical Learning Toolkit: Generate MCQs, Mind Maps, Summaries, and Lecture Remakes.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
