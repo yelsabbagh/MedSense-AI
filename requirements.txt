@@ -1,8 +1,9 @@
 google-generativeai
 pdf2image
 pytesseract
+Pillow
 pandas
-reportlab
-markdown
 python-docx
 docxtpl
+pypandoc
+lxml
